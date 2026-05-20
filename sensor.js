@@ -5,6 +5,8 @@ class ThermalSensor extends EventEmitter {
     constructor(id) {
         super(); // Inicializo el EventEmitter
         this.id = id;
+        // Inicializo la propiedad para guardar la última lectura
+        this.lastestTemp = 0;
     }
     // Tema 2: Ciclo de vida asíncrono (Timers)
     start() {
@@ -14,12 +16,16 @@ class ThermalSensor extends EventEmitter {
             // Simulo una temperatura aleatoria entre 20 y 40 grados
             const currentTemp = (Math.random() * 20 +20).toFixed(1);
 
+            // Actualizo la propiedad interna de la clase en cada ciclo
+            this.latestTemp = parseFloat(currentTemp); 
+
             // Tema 4: Notifico a los observadores que hay un nuevo dato
             this.emit('data', { id: this.id, temp: parseFloat(currentTemp) });
             if (currentTemp >= 35) {
                 // emito un evento llamado 'alert' comunicando que hay sobrecalentamiento
                 this.emit('alert', { id: this.id, temp: parseFloat(currentTemp) });
             }
+
         }, 2000);
     }
 }
